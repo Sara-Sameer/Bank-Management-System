@@ -851,17 +851,17 @@ int Fixed::years=0.00;
 class Admin
 {
     private:
-    string password;
+    char password[5];
     fstream output;                    
     int options();
-    void set_password(char* s);
+    void set_password(char s[],int);
     public:
     Admin()   //Prompt user to ask for password at time of creation
     {
-        password='\0';
+        //password='\0';
     }
      
-     bool check_password(char* s,bool );
+     bool check_password(char s[],int,bool );
      int Display_Menu();
      int View_Rec();
      void display_data(Saving&);
@@ -872,17 +872,18 @@ class Admin
     
 };
 
-void Admin::set_password(char* s)
+void Admin::set_password(char s[],int size)
     {
-        password=s;
+    	for(int i=0;i<size;i++)
+        password[i]=s[i];
         output.open("Password.txt",ios::out);
         output<<password;
         output.close();
     }
 
-bool Admin::check_password(char * s,bool flag)             
+bool Admin::check_password(char s[],int size,bool flag)             
     {
-      char s1[5];
+      char s1[size];
       int newpass,ch;
       //ifstream output;
       output.open("Password.txt",ios::in);
@@ -895,32 +896,37 @@ bool Admin::check_password(char * s,bool flag)
       output>>s1;
       if(!strcmp(s,s1))
       {
-		  system("cls");
-          cout<<"Correct Password"<<endl;
+          cout<<setw(69)<<"Correct Password"<<endl;
 		  getch();
           if(flag)
           {
 		  system("cls");
+		  cout<<"\a"<<endl;
           if(Account::interest==0.00)
-          cout<<"Reminder!!!"<<endl<<"You Haven't Set The Interest Rate Yet"<<endl;
+          cout<<endl<<setw(60)<<"Reminder!!!"<<endl<<setw(90)<<"You Haven't Set The Interest Rate Yet"<<endl;
           if(Saving::limit_amount==0.00)
-          cout<<"Reminder!!!"<<endl<<"You Haven't Set The Limiting Amount For Saving Account Yet"<<endl;
+          cout<<endl<<setw(60)<<"Reminder!!!"<<endl<<setw(90)<<"You Haven't Set The Limiting Amount For Saving Account Yet"<<endl;
           if(Fixed::years==0)
-          cout<<"Reminder!!!"<<endl<<"You Haven't Set The Duration(Years) for Fixed Account Yet"<<endl;
+          cout<<setw(60)<<endl<<"Reminder!!!"<<endl<<setw(89)<<"You Haven't Set The Duration(Years) for Fixed Account Yet"<<endl;
           if(Fixed::penalty==0.00)
-          cout<<"Reminder!!!"<<endl<<"You Haven't Set The Penalty Amount for Fixed Account Yet"<<endl;
-		  system("pause");
+          cout<<setw(60)<<endl<<"Reminder!!!"<<endl<<setw(89)<<"You Haven't Set The Penalty Amount for Fixed Account Yet"<<endl;
+		  getch();
           }
           
-          set_password(s);
-          cout<<"Do you want to change password[Press 1]"<<endl;
+          set_password(s,size);
+          system("cls");
+          cout<<setw(73)<<endl<<endl<<endl<<"Do you want to change password[Press 1]"<<endl;
           cin>>ch;
           if(ch==1)
           {
               cout<<"Enter New Password"<<endl;
-              cin>>s1;
-              set_password(s1);
+              for(int i=0;i<5;i++)
+              {
+              cin>>s1[i];
+              }
+              set_password(s1,size);
               cout<<"New Password Set"<<endl;
+              getch();
           }
           output.close();
           return true;
@@ -928,20 +934,24 @@ bool Admin::check_password(char * s,bool flag)
        else
          {
           cout<<"Password is incorrect"<<endl;
+          getch();
           return false;
           }
      }
 int Admin:: Display_Menu()
      {
-		 system("cls");
+		system("cls");
         int ch;
-        cout<<"Press 1 To View All Account Holders Details"<<endl;
-        cout<<"Press 2 To Search A Particular Account"<<endl;
-        cout<<"Press 3 To Find Total Accounts in Bank"<<endl;
-        cout<<"Press 4 To Set Rates/Penalties"<<endl;
-        cout<<"Press 5 To Change Password"<<endl;
-        cout<<"Press 6 To View Transaction History"<<endl; //Account or Day wise
-        cin>>ch; 
+        cout<<endl<<endl<<endl<<endl;
+        cout<<setw(80)<<" ______________________________________________"<<endl<<endl;
+        cout<<setw(80)<<"|  Press 1 To View All Account Holders Details |"<<endl;
+        cout<<setw(80)<<"|  Press 2 To Search A Particular Account      |"<<endl;
+        cout<<setw(80)<<"|  Press 3 To Find Total Accounts in Bank      |"<<endl;
+        cout<<setw(80)<<"|  Press 4 To Set Rates/Penalties              |"<<endl;
+        cout<<setw(80)<<"|  Press 5 To Change Password                  |"<<endl;
+        cout<<setw(80)<<"|  Press 6 To View Transaction History         |"<<endl; //Account or Day wise
+        cout<<setw(80)<<" ______________________________________________"<<endl;
+		cin>>ch; 
 		system("pause");
 		return ch;     
      }
@@ -986,12 +996,14 @@ int Admin::View_Rec(int x)
 void Admin::display_data(Saving &A)
 {	
 	system("cls");
+	cout<<"***************************"<<endl;
     cout<<"Account ID "<<A.getacc_no()<<endl;
 	cout<<"Name is "<<A.getname()<<endl;
 	cout<<"Gender is "<<A.gender<<endl;
 	cout<<"Account Type is "<<A.getacc_type()<<endl;
 	cout<<"Deposit "<<A.getammount()<<endl;
 	cout<<"Account Created On "<<A.d.Day<<"/"<<A.d.Month<<"/"<<A.d.year<<endl;
+	cout<<"*****************************"<<endl;
 	system("pause");
 } 
 
@@ -1025,10 +1037,10 @@ int Admin::options()
 {
 	int op;
 	system("cls");
-	cout<<"Press 1 to Set Interest Rate for Saving Account"<<endl;
-	cout<<"Press 2 to Set Maximum Deposit for Saving Account"<<endl;
-	cout<<"Press 3 to Set Penalty Rate For FD Withdraw"<<endl;
-	cout<<"Press 4 to Set Duration of Fixed Accounts "<<endl;
+	cout<<setw(70)<<"Press 1 to Set Interest Rate for Saving Account"<<endl;
+	cout<<setw(70)<<"Press 2 to Set Maximum Deposit for Saving Account"<<endl;
+	cout<<setw(70)<<"Press 3 to Set Penalty Rate For FD Withdraw"<<endl;
+	cout<<setw(70)<<"Press 4 to Set Duration of Fixed Accounts "<<endl;
 	cin>>op;
 	system("pause");
 	return op;
@@ -1138,12 +1150,12 @@ int log()
 {
     int ch;
 	system("cls");
-    cout<<setw(70)<<"Online Banking"<<endl;
-    cout<<setw(76)<<"Press 1 for Admin"<<endl;
-    cout<<setw(76)<<"Press 2 for User"<<endl;
-    cout<<setw(76)<<"Press 3 to Exit the Profile"<<endl;
+    cout<<endl<<endl<<endl<<endl<<endl<<setw(73)<<"Bank Managemnet System"<<endl<<endl<<endl;
+    cout<<setw(70)<<"|Press 1 for Admin"<<endl;
+    cout<<setw(69)<<"|Press 2 for User"<<endl;
+    cout<<setw(80)<<"|Press 3 to Exit the Profile"<<endl;
     cin>>ch;
-	getch();
+	system("pause");
     return ch;
 }
 
@@ -1175,9 +1187,16 @@ int main()
       int op=log();
         if(op==1)
         {
-          cout<<"Enter Password"<<endl;   
-          cin>>pass;    
-          if(A.check_password(pass,true))
+          system("cls");
+          cout<<endl<<endl<<setw(75)<<"Welcome To Admin Profile "<<endl<<endl;
+          cout<<setw(69)<<"Enter Password"<<endl;  
+		  for(int i=0;i<5;i++)
+		  { 
+          cin>>pass[i];
+		  //cout<<"*";
+		  //cin>>pass[i];
+	      }
+          if(A.check_password(pass,5,true))
           {
              switch(A.Display_Menu())
              {    
@@ -1198,7 +1217,7 @@ int main()
 			  case 5:
 			  	cout<<"Enter Current Password"<<endl;   
                 cin>>pass;
-			    A.check_password(pass,false);
+			    A.check_password(pass,5,false);
 			    break;
 			  case 6:
 			  	A.View_Transactions();
