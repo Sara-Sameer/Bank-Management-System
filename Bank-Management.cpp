@@ -9,8 +9,6 @@
 #include<cmath>
 #include<conio.h>
 
-// PASSWORD ASTERIKS
-//REPORT
 using namespace std;
 class Admin;
 class Date
@@ -998,6 +996,7 @@ int Admin:: Display_Menu()
         cout<<setw(80)<<"|  Press 5 To Change Password                  |"<<endl;
         cout<<setw(80)<<"|  Press 6 To View Transaction History         |"<<endl; //Account or Day wise
         cout<<setw(80)<<"|  Press 7 To View Total Balance In Bank       |"<<endl;
+        cout<<setw(80)<<"|  Press 8 To Return Profile Log               |"<<endl;
 		cout<<setw(80)<<" ______________________________________________"<<endl;
 		cin>>ch; 
 		system("pause");
