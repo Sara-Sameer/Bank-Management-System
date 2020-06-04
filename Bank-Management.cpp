@@ -8,9 +8,9 @@
 #include<windows.h>
 #include<cmath>
 #include<conio.h>
-//Correct Date Time Format In show data
-//Line 911 error
-//even option 4 allows you to amek fixed account
+
+// PASSWORD ASTERIKS
+//REPORT
 using namespace std;
 class Admin;
 class Date
@@ -75,28 +75,6 @@ class Date
 			return sec;
 		}
 		
-		/*void get_WeekDay()
-		{
-			int wday;
-			ofstream fout;
-			time_t now = time(0);
-		    tm *ltm = localtime(&now);
-			wday=int(ltm->tm_wday);
-			if(wday==1)
-			fout<< "Sunday"<<endl;
-			else if(wday==2)
-			fout<< "Monday"<<endl;
-			else if(wday==3)
-			fout<<"Tuesday"<<endl;
-			else if(wday==4)
-			fout<< "Wednesday"<<endl;
-			else if(wday==5)
-			fout<< "Thursday"<<endl;
-			else if(wday==6)
-			fout<< "Friday"<<endl;
-			else if(wday==6)
-			fout<<"Saturday"<<endl;
-		}*/
 };
 class Account
 {
@@ -105,8 +83,7 @@ class Account
    int AccNo;
    char name[20];
    char gender;
-
-    char type;
+   char type;
    double deposit;
    static double interest;
    Date d;
@@ -137,7 +114,7 @@ class Account
 };
 double Account::interest=0.00;
 
-bool Account::check(int a)
+/*bool Account::check(int a)
 {
 	int temp;
 	ifstream fin("ID.txt",ios::in);
@@ -157,7 +134,7 @@ bool Account::check(int a)
 	//cout<<"notSame"<<endl;
 	fin.close();
 	return true;
-}
+}*/
 
 	int Account:: getacc_no()
 		{
@@ -183,15 +160,18 @@ bool Account::check(int a)
      {
       system("cls");
       int ch;
-      cout<<"Press 1 to Create Account\n";
-      cout<<"Press 2 to View Details\n";
-      cout<<"Press 3 to Enquire About Balance\n";
-      cout<<"Press 4 to Delete Your Account\n";//faisal seekg  //Apply Restrictions/interest for fixed saving rsectively ;inheritnce
-      cout<<"Press 5 to Deposit Money"<<endl;
-	  cout<<"Press 6 to WithDraw Money"<<endl;
-	  cout<<"Press 7 to Modify Account\n";  //Fixed cannot be changed
-      cout<<"Press 8 to Donate Money For Relief Fund "<<endl;
-	  cout<<"Press 9 to Return to profile log\n";
+      cout<<endl<<endl<<endl<<endl<<setw(82)<<"Welcome To AYS-At Your Service Bank"<<endl;
+      cout<<setw(91)<<"_____________________________________________________"<<endl<<endl;
+      cout<<setw(92)<<"|     Press 1 to Create Account                     |\n"      ;
+      cout<<setw(98)<<"|     Press 2 to View Details                       |\n      ";
+      cout<<setw(86)<<"|     Press 3 to Enquire About Balance              |\n";
+      cout<<setw(92)<<"|     Press 4 to Delete Your Account                |\n";//faisal seekg  //Apply Restrictions/interest for fixed saving rsectively ;inheritnce
+      cout<<setw(91)<<"|     Press 5 to Deposit Money                      |"<<endl;
+	  cout<<setw(91)<<"|     Press 6 to WithDraw Money                     |"<<endl;
+	  cout<<setw(92)<<"|     Press 7 to Modify Account                     |\n";  //Fixed cannot be changed
+      cout<<setw(91)<<"|     Press 8 to Donate Money For Relief Fund       |"<<endl;
+	  cout<<setw(92)<<"|     Press 9 to Return to profile log              |\n";
+	  cout<<setw(91)<<"_____________________________________________________"<<endl<<endl;
       cin>>ch;
 	  system("pause");
       return ch;
@@ -200,33 +180,74 @@ bool Account::check(int a)
    {
      double dep;
 	 char gen;
+	 int i=0;
      //int ID=1210;
-     cout<<"Enter your name"<<endl;
-     cin>>name;
+     while(1)
+	{
+	cout<<"Enter Name"<<endl;
+	fflush(stdin);
+	try
+	{
+		cin.getline(name,20);
+		while(name[i]!='\0')
+		{
+		if(name[i]>='a'&&name[i]<='z'||name[i]>='A'&&name[i]<='Z'||name[i]==32)
+		{
+			i++;
+		}
+		else 
+		{
+			cout<<"Invalid Name Input"<<endl;
+			throw -1;
+		}
+		
+	}
+	if(name[i]=='\0')
+	break;
+    }
+	catch(int e)
+	{
+		if(e==-1)
+		continue;
+	}
+   }
+     while(1)
+     {
      cout<<"Enter Your Gender"<<endl;
      cin>>gen;
      if(toupper(gen)=='F'||toupper(gen)=='M')
+     {
      gender=toupper(gen);
+     break;
+     }
      else
      {
          cout<<"Invalid Input"<<endl;
-         menu();
-         return 1;
+         continue;
+     }
      }
      if(choice==true)
      {
-     cout<<"Enter the initial amount you want to deposit"<<endl;
-     cin>>dep;
-     if(dep>=500.00)
-     deposit=dep;
-     else
-     {
-         cout<<"Amount not enough to create an account"<<endl;
-         menu();
-         return 1;
-     }
-     
-    
+     	while(1)
+     	{
+		 cout<<"Enter the initial amount you want to deposit"<<endl;
+		 try
+		 {
+		 	cin>>dep;
+		 	if(dep>=500.00)
+		 	{
+               deposit=dep;
+               break;
+            }
+            else
+            throw -1;
+		  }
+		  catch( int e)
+		  {
+		  	cout<<"Amount not enough to create an account"<<endl;
+		  	continue;
+		  }
+        } 
      d.year=d.get_year();
 	 d.Month=d.get_month();
 	 d.Day=d.get_day();
@@ -248,6 +269,7 @@ bool Account::check(int a)
        if(!out)
        {
        cout<<"File Not Loaded"<<endl;
+       system("pause");
        }
        else
        {
@@ -259,6 +281,7 @@ bool Account::check(int a)
    void Account::show_data()
 {
 	system("cls");
+	cout<<"************************************************************************"<<endl;
     cout<<setw(30)<<"Time "<<d.get_hrs()<<":"<<d.get_mins()<<":"<<d.get_sec()<<endl;
 	cout<<"Account Number is "<<getacc_no()<<endl;
 	cout<<"Name is "<<getname()<<endl;
@@ -266,7 +289,8 @@ bool Account::check(int a)
 	cout<<"Account Type is "<<getacc_type()<<endl;
 	cout<<"Deposit "<<getammount()<<endl;
 	cout<<"Interest Rate is "<<interest<<endl;
-	cout<<"Account Created On "<<d.Day<<"/"<<d.Month<<"/"<<d.year<<endl;
+	cout<<"Account Created On "<<d.Day<<"/"<<d.Month<<"/"<<d.year<<endl<<endl;
+	cout<<"**************************************************************************"<<endl;
 	system("pause");	
 } 
     void Account::View_Balance(int acc)
@@ -284,14 +308,19 @@ bool Account::check(int a)
 			if(this->AccNo==acc)
 			{
 			system("cls");
-    	    cout<<"Your Current Balance is "<<getammount()<<endl;
+			cout<<endl<<endl<<endl<<endl;
+			cout<<setw(68)<<"Balance Enquiry"<<endl<<endl;
+    	    cout<<setw(70)<<"Your Current Balance is "<<getammount()<<endl;
 			getch();
 			flag=false;
 			}
     	    fin.read((char*)this,sizeof(*this));
 		}
 		if(flag)
+		{
 		cout<<"Account ID Not Found"<<endl;
+		system("pause");
+	    }
 		fin.close();
 	}
 	
@@ -302,6 +331,7 @@ bool Account::check(int a)
 		if(!fin)
 		{
 			cout<<"File Not Opened"<<endl;
+			getch();
 		}
 		fin.read((char*)this,sizeof(*this));
 		while(!fin.eof())
@@ -315,7 +345,11 @@ bool Account::check(int a)
 		}
 		fin.close();
 		if(flag)
+		{
 		cout<<"Record Not Found"<<endl;
+		system("pause");
+	    }
+		getch();
 	}
 	void Account::Delete_Account(int acc)
 		{
@@ -325,10 +359,11 @@ bool Account::check(int a)
 			if(!i)
 			{
 				cout<<"FILE NOT FOUND.."<<endl;
+				system("pause");
 			}
 			else
 			{
-				o.open("temp.txt",ios::out);
+				o.open("temp.dat",ios::out);
 				i.read((char*)this,sizeof(*this));
 				while(!i.eof())
 				{
@@ -340,8 +375,10 @@ bool Account::check(int a)
 				}
 				i.close();
 				o.close();
-				remove("Account.txt");
-				rename("temp.txt","Account.txt");
+				remove("Account.dat");
+				rename("temp.dat","Account.dat");
+				cout<<" Account ID "<<acc<<" Has Been Removed "<<endl;
+				getch();
 			}
 		}
 		void Account::Modify_Account(int acc)
@@ -352,6 +389,7 @@ bool Account::check(int a)
 			if(!fin)
 			{
 				cout<<"FILE IS NOT OPENED...."<<endl;
+				getch();
 			}
 			else
 			{
@@ -362,6 +400,7 @@ bool Account::check(int a)
 				{
 					flag=false;
 					system("cls");
+					cout<<setw(78)<<"Enter Updated Data"<<endl;
 					Account::Get_Data_Account(false);
 				}
 				fout.write((char*)this,sizeof(*this));
@@ -370,13 +409,14 @@ bool Account::check(int a)
 			if(flag)
 			{
 				cout<<"Record Not Found"<<endl;
+				getch();
 			}
-		    }
-
+         }
 		    fout.close();
 			fin.close();
-			remove("Temp.dat");
+			remove("Account.dat");
 			rename("Temp.dat","Account.dat");
+		
 	    }
 				
 	/*void Account::amountupdate()
@@ -448,7 +488,6 @@ bool Account::check(int a)
 				return this->type;
 				fin.read((char*)this,sizeof(*this));
 			}
-			cout<<"Account Not Found"<<endl;
 		}
 		
 	 int Account::Donate_Fund(int Acc)
@@ -469,13 +508,13 @@ bool Account::check(int a)
 			 {
 			 flag=false;
 			 system("cls");
-			 cout<<"-------------------------------------------------------------------------------"<<endl;
-			 cout<<setw(60)<<"Every Bit Counts"<<endl;
-			 cout<<setw(60)<<"How Much Would You Like To Donate"<<endl;
+			 cout<<endl<<endl<<endl<<endl;
+			 cout<<setw(70)<<"Every Bit Counts"<<endl;
+			 cout<<setw(78)<<"How Much Would You Like To Donate?"<<endl;
 			 cin>>don;
 			 if(don>0.00)
 			 this->deposit=this->deposit-don;
-			 cout<<setw(60)<<"Thank You Reaching Us"<<endl;
+			 cout<<setw(72)<<"Thank You Helping Us"<<endl;
 			 getch();
 			 }
 			fout.write((char*)this,sizeof(*this));
@@ -483,6 +522,7 @@ bool Account::check(int a)
 		 }
 		 if(flag)
 		 cout<<"Record Not Found"<<endl;
+		 getch();
 		 fin.close();
 		 fout.close();
 		 remove("Account.dat");
@@ -500,6 +540,7 @@ bool Account::check(int a)
 	    if(!fin)
 	    {
 	  	cout<<"File Not Found"<<endl;
+	  	getch();
 	    }
 		fin.seekg(0, ios::end);  
           if (fin.tellg() == 0)
@@ -560,7 +601,7 @@ bool Account::check(int a)
 		int Get_Data_Account(bool x)
 		{
 			system("cls");
-			cout<<" Welcome To Your Saving Account"<<endl;
+			cout<<setw(75)<<endl<<endl<<endl<<endl<<" Welcome To Your Saving Account"<<endl;
 			type='S';
 			Account::Get_Data_Account(x);
 			//system("pause");
@@ -577,6 +618,7 @@ bool Account::check(int a)
 			if(!fin||!fout)
 			{
 				cout<<"File Not Loaded"<<endl;
+				getch();
 				return 1;
 			}
 			fin.seekg(0);
@@ -606,7 +648,10 @@ bool Account::check(int a)
 				  fin.read((char*)this,sizeof(*this));
 			}
 			if(flag)
+			{
             cout<<"Account ID Not Found"<<endl;
+            system("pause");
+            }
 			fout.close();
 			fin.close();
 			output.close();
@@ -632,10 +677,11 @@ bool Account::check(int a)
 				{
 					flag=false;
 					system("cls");
-					cout<<"How Much Do You Want To WithDraw"<<endl;
+					cout<<"How Much Do You Want To WithDraw?"<<endl;
 					cin>>with;
 					if(with>=0.00&&with<=deposit)
 					deposit=deposit-with;
+					cout<<"WithDraw Complete"<<endl;
 					fout<<this->AccNo<<" "<<this->name<<" "<<this->type<<" "<<"WithDraw "<<with<<" "<<d.get_hrs()<<":"<<d.get_mins()<<":"<<d.get_sec()<<" ";
 					fout<<endl;
 					system("pause");
@@ -741,7 +787,8 @@ static int get_years()
 			fstream fin("Account.dat",ios::in|ios::binary);
 			if(!fin)
 			{
-				cout<<"Deposit Fnction of Fixed Not Loaded"<<endl;
+				cout<<"Deposit Function of Fixed Not Loaded"<<endl;
+				getch();
 				return 1;
 			}
 			//fin.seekg(0);
@@ -751,11 +798,13 @@ static int get_years()
 				if(this->AccNo==AccNo)
 				{
                     system("cls");
-					cout<<"How Much Do You Want To Deposit"<<endl;
+					cout<<"How Much Do You Want To Deposit?"<<endl;
 					cin>>dep;
 					if(dep>=0)
 					deposit=deposit+dep+dep*interest;
+					cout<<dep<<" Rs has been deposited"<<endl;
 					//fin.seekp(fin.tellp()-sizeof(*this));
+					//cout<<dep<<" Rs has been Deposited"<<endl;
 					fout<<this->AccNo<<" "<<this->name<<" "<<"F"<<" "<<"Deposit "<<dep<<" "<<d.get_hrs()<<":"<<d.get_mins()<<":"<<d.get_sec()<<" ";
 				   // d.get_WeekDay();	
 				   fout<<endl;
@@ -790,7 +839,7 @@ static int get_years()
 				if(this->AccNo==AccNo)
 				{
 					system("cls");
-					cout<<"How Much Do You Want To WithDraw"<<endl;
+					cout<<"How Much Do You Want To WithDraw?"<<endl;
 					cin>>with;
 					if(with>=0.00&&with<=deposit)
 					{
@@ -851,17 +900,16 @@ int Fixed::years=0.00;
 class Admin
 {
     private:
-    char password[5];
-    fstream output;                    
+    char password[10];                    
     int options();
-    void set_password(char s[],int);
+    void set_password(char * s);
     public:
     Admin()   //Prompt user to ask for password at time of creation
     {
         //password='\0';
     }
      
-     bool check_password(char s[],int,bool );
+     bool check_password(char* s,bool );
      int Display_Menu();
      int View_Rec();
      void display_data(Saving&);
@@ -869,63 +917,62 @@ class Admin
      int View_Total();
      void set_rates();
      void View_Transactions();
+     int View_Balance();
     
 };
 
-void Admin::set_password(char s[],int size)
+void Admin::set_password(char* s)
     {
-    	for(int i=0;i<size;i++)
-        password[i]=s[i];
-        output.open("Password.txt",ios::out);
-        output<<password;
-        output.close();
+        ofstream out;
+		strcpy(password,s);	
+        //password=s;
+        out.open("Password.txt",ios::out);
+        out<<password;
+        out.close();
     }
 
-bool Admin::check_password(char s[],int size,bool flag)             
+bool Admin::check_password(char* s,bool flag)             
     {
-      char s1[size];
-      int newpass,ch;
-      //ifstream output;
-      output.open("Password.txt",ios::in);
-      if(!output)
+        char s1[10];
+        int newpass,ch;
+       ifstream output;
+        output.open("Password.txt",ios::in);
+       if(!output)
       {
           cout<<"File Cannot Be opened"<<endl;
-          return false;
-		  system("pause");
+          system("pause");
+          return false;		  
       }
-      output>>s1;
+       output>>s1;
       if(!strcmp(s,s1))
       {
-          cout<<setw(69)<<"Correct Password"<<endl;
+          cout<<setw(71)<<"Correct Password"<<endl;
 		  getch();
           if(flag)
           {
 		  system("cls");
 		  cout<<"\a"<<endl;
+		  cout<<setw(68)<<"PENDING WORK"<<endl;
           if(Account::interest==0.00)
-          cout<<endl<<setw(60)<<"Reminder!!!"<<endl<<setw(90)<<"You Haven't Set The Interest Rate Yet"<<endl;
+          cout<<endl<<endl<<setw(90)<<"You Haven't Set The Interest Rate Yet"<<endl;
           if(Saving::limit_amount==0.00)
-          cout<<endl<<setw(60)<<"Reminder!!!"<<endl<<setw(90)<<"You Haven't Set The Limiting Amount For Saving Account Yet"<<endl;
+          cout<<endl<<endl<<setw(90)<<"You Haven't Set The Limiting Amount For Saving Account Yet"<<endl;
           if(Fixed::years==0)
-          cout<<setw(60)<<endl<<"Reminder!!!"<<endl<<setw(89)<<"You Haven't Set The Duration(Years) for Fixed Account Yet"<<endl;
+          cout<<endl<<endl<<setw(89)<<"You Haven't Set The Duration(Years) for Fixed Account Yet"<<endl;
           if(Fixed::penalty==0.00)
-          cout<<setw(60)<<endl<<"Reminder!!!"<<endl<<setw(89)<<"You Haven't Set The Penalty Amount for Fixed Account Yet"<<endl;
-		  getch();
-          }
-          
-          set_password(s,size);
+          cout<<endl<<endl<<setw(89)<<"You Haven't Set The Penalty Amount for Fixed Account Yet"<<endl;
+		  getch();          
+          set_password(s);
           system("cls");
+          }
           cout<<setw(73)<<endl<<endl<<endl<<"Do you want to change password[Press 1]"<<endl;
           cin>>ch;
           if(ch==1)
           {
               cout<<"Enter New Password"<<endl;
-              for(int i=0;i<5;i++)
-              {
-              cin>>s1[i];
-              }
-              set_password(s1,size);
-              cout<<"New Password Set"<<endl;
+              cin>>s1;
+              set_password(s1);
+              cout<<endl<<"New Password Set"<<endl;
               getch();
           }
           output.close();
@@ -950,7 +997,8 @@ int Admin:: Display_Menu()
         cout<<setw(80)<<"|  Press 4 To Set Rates/Penalties              |"<<endl;
         cout<<setw(80)<<"|  Press 5 To Change Password                  |"<<endl;
         cout<<setw(80)<<"|  Press 6 To View Transaction History         |"<<endl; //Account or Day wise
-        cout<<setw(80)<<" ______________________________________________"<<endl;
+        cout<<setw(80)<<"|  Press 7 To View Total Balance In Bank       |"<<endl;
+		cout<<setw(80)<<" ______________________________________________"<<endl;
 		cin>>ch; 
 		system("pause");
 		return ch;     
@@ -977,7 +1025,7 @@ int Admin::View_Rec()
 int Admin::View_Rec(int x)  
 {
 	Saving A;
-	ifstream fin("Account.txt",ios::binary|ios::in);
+	ifstream fin("Account.dat",ios::binary|ios::in);
 	if(!fin)
 	{
 		cout<<"File Not Opened"<<endl;
@@ -1012,7 +1060,7 @@ int Admin::View_Total()
 	int save,fixed,count;
 	save=fixed=count=0;
 	Saving A;
-	ifstream fin("Account.txt",ios::in|ios::binary);
+	ifstream fin("Account.dat",ios::in|ios::binary);
 	if(!fin)
 	{
 		cout<<"File Not Opened"<<endl;
@@ -1028,19 +1076,26 @@ int Admin::View_Total()
 	    fixed++;
 		fin.read((char*)&A,sizeof(A));
 	}
-	cout<<"Total Accounts in Bank "<<count<<endl;
-	cout<<"Total Saving Accounts "<<save<<endl;
-	cout<<"Total Fixed Accounts "<<fixed<<endl;
+	system("cls");
+	cout<<endl;
+	cout<<"\t\tAccount Count"<<endl;
+	cout<<"______________________________________________________"<<endl<<endl;
+	cout<<"Total Accounts in Bank                        |"<<count<<endl;
+	cout<<"Total Saving Accounts                         |"<<save<<endl;
+	cout<<"Total Fixed Accounts                          |"<<fixed<<endl;
+	cout<<"______________________________________________________"<<endl;
 	fin.close();
+	getch();
 }
 int Admin::options()
 {
 	int op;
 	system("cls");
-	cout<<setw(70)<<"Press 1 to Set Interest Rate for Saving Account"<<endl;
-	cout<<setw(70)<<"Press 2 to Set Maximum Deposit for Saving Account"<<endl;
-	cout<<setw(70)<<"Press 3 to Set Penalty Rate For FD Withdraw"<<endl;
-	cout<<setw(70)<<"Press 4 to Set Duration of Fixed Accounts "<<endl;
+	cout<<endl<<endl<<endl<<endl<<endl<<setw(70)<<"Working Status"<<endl<<endl;
+	cout<<setw(95)<<"|Press 1 to Set Interest Rate For Saving Account [0.0-1.0]"<<endl;
+	cout<<setw(88)<<"|Press 2 to Set Amount For Saving Account's Deposit"<<endl;
+	cout<<setw(97)<<"|Press 3 to Set Penalty Rate For FD Withdraw Before Due Year"<<endl;
+	cout<<setw(80)<<"|Press 4 to Set Duration For Fixed Accounts"<<endl;
 	cin>>op;
 	system("pause");
 	return op;
@@ -1055,40 +1110,43 @@ void Admin::set_rates()
 	switch(options())
 	{
 		case 1:
-			cout<<"Current Interest Rate is "<<Saving::interest<<endl;
-			cout<<"Enter Interest Rate "<<endl;
+			cout<<endl<<endl<<"Current Interest Rate is "<<Saving::interest<<endl;
+			cout<<"Enter New Interest Rate "<<endl;
 			cin>>rate;
 			if(rate>=0.00&&rate<=1.00)
 			{
 			Saving::interest=rate;
-			cout<<"Rate is "<<Saving::interest;
+			cout<<"Interest Rate is "<<Saving::interest<<endl;
 		    }
 			else
 			cout<<"Not A Valid Value"<<endl;
+			system("pause");
 			break;
 		case 2:
-			cout<<"current amount is "<<Saving::limit_amount<<endl;
-			cout<<"Enter Maximum Amount"<<endl;
+			cout<<endl<<endl<<"Current Amount Set For Saving Account's Deposit "<<Saving::limit_amount<<endl;
+			cout<<"Enter New Amount"<<endl;
 			cin>>rate;
 			if(rate>0.00)
 			{
 				Saving::limit_amount=rate;
 			}
-			cout<<"Limiting Amount is "<<Saving::limit_amount<<endl;
+			cout<<"Amount is "<<Saving::limit_amount<<endl;
+			system("pause");
 			break;
 		case 3:
-		   cout<<"Current Penalty For Fixed Accounts are "<<Fixed::penalty;
-		   cout<<"Enter Penalty "<<endl;
+		   cout<<endl<<endl<<"Current Penalty For Fixed Accounts are "<<Fixed::penalty;
+		   cout<<"Enter Penalty For Fixed Account"<<endl;
 			cin>>rate;
 			if(rate>0.00)
 			{
 				Fixed::penalty=rate;
 			}
-			cout<<"Penalty for Fixed Account "<<Fixed::penalty;
+			cout<<"Penalty for Fixed Account "<<Fixed::penalty<<endl;
+			system("pause");
 			break;
 		case 4:
-			cout<<"Current Duration is "<<Fixed::years<<endl;
-			cout<<"Enter Duration for Fixed"<<endl;
+			cout<<endl<<endl<<"Current Duration is "<<Fixed::years<<endl;
+			cout<<"Enter Duration for Fixed Account "<<endl;
 			cin>>y;
 			if(y>=0)
 			{
@@ -1097,11 +1155,9 @@ void Admin::set_rates()
 			}
 				else
 			cout<<"Not A Valid Value"<<endl;
-			break;
-		
-			
-			
-	}
+			system("pause");
+			break;		
+	        }
 } 
 
 void Admin::View_Transactions()
@@ -1131,31 +1187,76 @@ void Admin::View_Transactions()
 			//fin>>wday;		
 			//cout<<"ID\tName\tType\tStatus\tAmount(Deposit/WithDraw)\tTime\tDay"<<endl; 
 			//cout<<Account::AccNo<<"\t"<<Account::name<<"\t"<<Account::type<<"\t"<<status<<"\t"<<amount<<"\t\t"<<d.hr<<":"<<d.min<<":"<<d.sec<<"\t"<<wday<<endl;
-		    cout<<"------------------------------------------------------------------"<<endl;
-			cout<<"Account Number: "<<Acc<<endl;
+		    cout<<"********************************************************"<<endl;
+			cout<<setw(40)<<"Account Number: "<<Acc<<endl;
+			cout<<"********************************************************"<<endl;
 			cout<<"Account Holder: "<<name<<endl;
 			cout<<"Account Type[F/S]: "<<type<<endl;
 			cout<<"Status: "<<status<<endl;
 			cout<<"Amount[In PKR]: "<<amount<<endl;
-			cout<<"Time: "<<d.hr<<":"<<d.min<<":"<<d.sec<<endl;
+			cout<<"Transaction Time: "<<d.hr<<":"<<d.min<<":"<<d.sec<<endl<<endl;
 			//cout<<"Day: "<<wday<<endl;
-			cout<<"---------------------------------------------------------------------"<<endl;
+			cout<<"*********************************************************"<<endl;
 			system("pause");
 			}
 		    fin.close();
 		}	
+
+int Admin::View_Balance()
+{
+	Saving S;
+	double total=0;
+	system("cls");
+	ifstream fin("Account.dat",ios::in);
+	if(!fin)
+	{
+		cout<<"Cannot Open File"<<endl;
+		getch();
+		return 1;
+	}
+	fin.read((char*)&S,sizeof(S));
+	while(!fin.eof())
+	{
+		total=total+S.deposit;
+		fin.read((char*)&S,sizeof(S));
+	}
+	cout<<endl<<endl<<endl;
+	cout<<setw(60)<<"Total Balance in Bank is "<<total<<" PKR"<<endl;
+	getch();
+	fin.close();
+}
+
+void loading()
+{
+   //system("color 0a");
+    cout<<"\n\n\n\t\t\t\t\t\t      Please wait while loading\n\n";
+    char a=177, b=219;
+    cout<<"\t\t\t\t\t\t\t";
+    for (int i=0;i<=15;i++)
+    cout<<a;
+    cout<<"\r";
+    cout<<"\t\t\t\t\t\t\t";
+     for (int i=0;i<=15;i++)
+    {
+    cout<<b;
+    for (int j=0;j<=1e8;j++); //You can also use sleep function instead of for loop
+    }
+    cout<<endl;
+ //clrscr()
+}
+
 
 
 int log()
 {
     int ch;
 	system("cls");
-    cout<<endl<<endl<<endl<<endl<<endl<<setw(73)<<"Bank Managemnet System"<<endl<<endl<<endl;
+    cout<<endl<<endl<<endl<<endl<<endl<<setw(73)<<"Bank Management System"<<endl<<endl<<endl;
     cout<<setw(70)<<"|Press 1 for Admin"<<endl;
     cout<<setw(69)<<"|Press 2 for User"<<endl;
     cout<<setw(80)<<"|Press 3 to Exit the Profile"<<endl;
     cin>>ch;
-	system("pause");
+    loading();
     return ch;
 }
 
@@ -1163,25 +1264,37 @@ int Account_Choice()
 {
 	int op;
 	system("cls");
-	cout<<"Press 1 for Saving Account"<<endl;
-	cout<<"Press 2 for Fixed Account"<<endl;
+	cout<<endl<<endl<<endl<<endl<<endl<<setw(68)<<"Account Type "<<endl<<endl;
+	cout<<setw(76)<<"|Press 1 for Saving Account"<<endl;
+	cout<<setw(75)<<"|Press 2 for Fixed Account"<<endl;
 	cin>>op;
 	getch();
 	return op;
 }
 
+
+int log_out()
+{
+	system("cls");
+	cout<<endl<<endl<<endl<<endl;
+	cout<<setw(70)<<"Thank You For Visiting "<<endl;
+	cout<<setw(67)<<"Come Again Soon"<<endl;
+}
 int main()
 {
 	
  int choice;
-    int ID,ID2;
+    int ID,i=0;
     double dep;
-    char pass[5];
+    char pass[6];
+    char ch;
     Account *ptr;
     Saving S;
     Fixed F;
     ptr=&S;
     Admin A;
+    bool flag;
+    system("color 0A");
     while(1)
     {
       int op=log();
@@ -1189,15 +1302,22 @@ int main()
         {
           system("cls");
           cout<<endl<<endl<<setw(75)<<"Welcome To Admin Profile "<<endl<<endl;
-          cout<<setw(69)<<"Enter Password"<<endl;  
-		  for(int i=0;i<5;i++)
-		  { 
-          cin>>pass[i];
-		  //cout<<"*";
-		  //cin>>pass[i];
-	      }
-          if(A.check_password(pass,5,true))
+          cout<<setw(69)<<"Enter Password"<<endl;
+          //ch=fgetc(stdin);
+         /* ch=_getch();
+          while(ch!=13&&ch!=32)
           {
+       		cout<<"*";
+       		pass[i]=ch;
+       		i++;
+			ch=_getch();
+		 }*/
+		  cin>>pass;
+          if(A.check_password(pass,true))
+          {	
+            flag=true;
+		    while(flag)
+			{ 
              switch(A.Display_Menu())
              {    
               case 1:
@@ -1217,18 +1337,30 @@ int main()
 			  case 5:
 			  	cout<<"Enter Current Password"<<endl;   
                 cin>>pass;
-			    A.check_password(pass,5,false);
+			    A.check_password(pass,false);
 			    break;
 			  case 6:
 			  	A.View_Transactions();
 			  	break;
+			 case 7:
+			 	A.View_Balance();
+			 	break;
+			  case 8:
+			  	flag=false;
+			  	break;
 			  	
-             }
+			  }
+			  	
+						  	
            }
        }
+   }
+   
         else if(op==2)
         {
-        	
+        	flag=true;
+          while(flag)
+		  {
         	switch(ptr->menu())
         	{
         		case 1:
@@ -1302,12 +1434,16 @@ int main()
         			cout<<"Enter Your Account ID"<<endl;
 					cin>>ID;
 					ptr->Donate_Fund(ID);
+					break;
+				case 9:
+				    flag=false;
 					break;	
         	}
         }
+        }
 		else if(op==3)
 		{
-			cout<<"Thank You For Visiting"<<endl;
+			log_out();
 			return 0;
 		}
         else
