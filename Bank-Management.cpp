@@ -952,7 +952,7 @@ bool Admin::check_password(char* s,bool flag)
 		  cout<<"\a"<<endl;
 		  cout<<setw(68)<<"PENDING WORK"<<endl;
           if(Account::interest==0.00)
-          cout<<endl<<endl<<setw(90)<<"You Haven't Set The Interest Rate Yet"<<endl;
+          cout<<endl<<endl<<setw(80)<<"You Haven't Set The Interest Rate Yet"<<endl;
           if(Saving::limit_amount==0.00)
           cout<<endl<<endl<<setw(90)<<"You Haven't Set The Limiting Amount For Saving Account Yet"<<endl;
           if(Fixed::years==0)
@@ -1169,7 +1169,11 @@ void Admin::View_Transactions()
 			char name[10];
 			char type;	
 			ifstream fin("Transaction.txt",ios::in);
-		
+		    fin.seekg(0, ios::end);  
+            if (fin.tellg() == 0)
+               cout<<"No Transactions Has Been Made"<<endl;
+             else
+			 {  
 			while(!fin.eof())
 			{
 			fin>>Acc;
@@ -1196,8 +1200,9 @@ void Admin::View_Transactions()
 			cout<<"Transaction Time: "<<d.hr<<":"<<d.min<<":"<<d.sec<<endl<<endl;
 			//cout<<"Day: "<<wday<<endl;
 			cout<<"*********************************************************"<<endl;
+		    }
+		}
 			system("pause");
-			}
 		    fin.close();
 		}	
 
